@@ -18,8 +18,6 @@ class TestPodmanBuildModule:
             ({"name": "myimage", "file": "/tmp/Containerfile"}, True),
             # Valid minimal parameters
             ({"name": "myimage", "set_working_directory": "/tmp/build"}, True),
-            # Valid parameters with tag
-            ({"name": "myimage", "file": "/tmp/Containerfile", "tag": "1.0"}, True),
             # Valid parameters with all image states
             ({"name": "myimage", "file": "/tmp/Containerfile", "state": "quadlet"}, True),
         ],

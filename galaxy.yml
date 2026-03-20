@@ -1,10 +1,6 @@
 namespace: containers
 name: podman
-<<<<<<< HEAD
-version: 1.19.2
-=======
 version: 1.20.0
->>>>>>> ed22d92 (feat: Create podman_build modules to build using quadlet)
 readme: README.md
 authors:
   - Sagi Shnaidman <sshnaidm@redhat.com>
