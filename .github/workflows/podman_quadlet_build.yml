@@ -32,4 +32,3 @@ jobs:
     with:
       module_name: "podman_quadlet_build"
       display_name: "Podman quadlet build"
-      extra_collections: "ansible.posix"
