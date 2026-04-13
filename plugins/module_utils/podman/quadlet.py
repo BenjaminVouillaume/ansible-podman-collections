@@ -802,7 +802,7 @@ class BuildQuadlet(Quadlet):
             params["podman_args"] += params["cmd_args"]
         if params["ca_cert_dir"]:
             params["podman_args"].append(f"--cert-dir {params['ca_cert_dir']}")
-        if not params["cache"]:
+        if params["cache"] is False:
             params["podman_args"].append("--no-cache")
 
         return params

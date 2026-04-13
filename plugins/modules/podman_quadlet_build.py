@@ -24,11 +24,11 @@ DOCUMENTATION = r"""
       description:
         - CPU architecture for the container image
       type: str
-    auth_file:
+    authfile:
       description:
         - Path to file containing authorization credentials to the remote registry.
       aliases:
-        - authfile
+        - auth_file
       type: path
     build_args:
       description:
@@ -80,7 +80,7 @@ DOCUMENTATION = r"""
       type: dict
     file:
       description: Path to the Containerfile if it is not in the build context directory.
-      required: True
+      required: false
       type: path
     force_rm:
       description:
@@ -252,7 +252,7 @@ def main():
         argument_spec=dict(
             annotation=dict(type="dict"),
             arch=dict(type="str"),
-            auth_file=dict(type="path", aliases=["authfile"]),
+            authfile=dict(type="path", aliases=["auth_file"]),
             build_args=dict(type="dict", aliases=["buildargs"]),
             ca_cert_dir=dict(type="path"),
             cache=dict(type="bool"),
@@ -261,7 +261,7 @@ def main():
             dns_opt=dict(type="list", elements="str", aliases=["dns_option"], required=False),
             dns_search=dict(type="list", elements="str", required=False),
             env=dict(type="dict"),
-            file=dict(type="path", required=True),
+            file=dict(type="path", required=False),
             force_rm=dict(type="bool"),
             group_add=dict(type="list", elements="str", aliases=["groups"]),
             ignore_file=dict(type="path", aliases=["ignorefile"]),
@@ -292,15 +292,13 @@ def main():
         supports_check_mode=False,
         required_together=(["username", "password"],),
         mutually_exclusive=(
-            ["auth_file", "username"],
-            ["auth_file", "password"],
+            ["authfile", "username"],
+            ["authfile", "password"],
         ),
     )
 
-    # Handle quadlet state separately
-    if module.params["state"] == "quadlet":  # type: ignore
-        results = create_quadlet_state(module, "build")
-        module.exit_json(**results)
+    results = create_quadlet_state(module, "build")
+    module.exit_json(**results)
 
 
 if __name__ == "__main__":

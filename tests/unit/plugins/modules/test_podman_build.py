@@ -1,4 +1,4 @@
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import
 
 __metaclass__ = type
 
@@ -26,14 +26,11 @@ class TestPodmanBuildModule:
         """Test that valid parameters are accepted."""
         # Mock the PodmanImageManager to avoid actual execution
         with patch(
-            "ansible_collections.containers.podman.plugins.modules.podman_image.create_quadlet_state"
+            "ansible_collections.containers.podman.plugins.modules.podman_quadlet_build.create_quadlet_state"
         ) as mock_quadlet:
-            # "ansible_collections.containers.podman.plugins.modules.podman_image.PodmanImageManager"
-            # ) as mock_manager, patch(
 
             mock_manager_instance = Mock()
             mock_manager_instance.execute.return_value = {"changed": False, "build": {}}
-            # mock_manager.return_value = mock_manager_instance
             mock_quadlet.return_value = {"changed": False}
 
             # Mock AnsibleModule.exit_json to capture the call
