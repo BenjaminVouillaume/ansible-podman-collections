@@ -791,7 +791,7 @@ class BuildQuadlet(Quadlet):
         if params["annotation"]:
             params["annotation"] = ["%s=%s" % (k, v) for k, v in params["annotation"].items()]
         if params["username"] and params["password"]:
-            params["podman_args"].append(f"--creds {params['username']}:{params['password']}")
+            params["podman_args"].append(f"--creds {shlex.quote(params['username'] + ':' + params['password'])}")
         if params["build_args"]:
             params["build_args"] = ["%s=%s" % (k, v) for k, v in params["build_args"].items()]
         if params["env"]:

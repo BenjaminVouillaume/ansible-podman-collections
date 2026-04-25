@@ -62,12 +62,8 @@ class TestPodmanBuildModule:
         [
             # Missing required name and file parameters
             ({}, "name"),
-            # Missing required name and file parameters
-            ({}, "file"),
             # Missing required name parameter
             ({"file": "/tmp/Containerfile"}, "name"),
-            # Missing required file parameter
-            ({"name": "myimage"}, "file"),
             # Invalid state
             ({"name": "alpine", "file": "/tmp/Containerfile", "state": "invalid"}, "state"),
         ],
@@ -97,28 +93,28 @@ class TestPodmanBuildModule:
 
     def test_mutual_exclusion_logic(self):
         """Test that mutually exclusive parameters are defined correctly."""
-        # Test the logic that auth_file and username/password are mutually exclusive
+        # Test the logic that authfile and username/password are mutually exclusive
 
         # These combinations should be mutually exclusive:
-        # - auth_file with username
-        # - auth_file with password
+        # - authfile with username
+        # - authfile with password
 
         mutually_exclusive_combinations = [
-            ({"auth_file": "/path/to/auth", "username": "user"}, True),
-            ({"auth_file": "/path/to/auth", "password": "pass"}, True),
+            ({"authfile": "/path/to/auth", "username": "user"}, True),
+            ({"authfile": "/path/to/auth", "password": "pass"}, True),
             ({"username": "user", "password": "pass"}, False),  # This should be allowed
-            ({"auth_file": "/path/to/auth"}, False),  # This should be allowed
+            ({"authfile": "/path/to/auth"}, False),  # This should be allowed
         ]
 
         for params, should_be_exclusive in mutually_exclusive_combinations:
             # This tests the logic of mutual exclusion
-            has_auth_file = "auth_file" in params
+            has_authfile = "authfile" in params
             has_credentials = "username" in params or "password" in params
 
             if should_be_exclusive:
-                assert has_auth_file and has_credentials
+                assert has_authfile and has_credentials
             else:
-                assert not (has_auth_file and has_credentials) or not has_auth_file
+                assert not (has_authfile and has_credentials) or not has_authfile
 
     def test_required_together_logic(self):
         """Test that username and password are required together."""
@@ -141,3 +137,25 @@ class TestPodmanBuildModule:
             else:
                 # Both present or both absent
                 assert has_username == has_password
+
+    def test_required_one_of_logic(self):
+        """Test that one of file or set_working_directory is defined."""
+        # Test that one of file or set_working_directory is defined
+
+        test_cases = [
+            ({}, True),  # Neither present
+            ({"file": "/foo/Containerfile"}, False),  # File present
+            ({"set_working_directory": "/foo"}, False),  # set_working_directory present
+            ({"file": "/foo/Containerfile", "set_working_directory": "/bar"}, False)  # Both present
+        ]
+
+        for params, should_fail_required_one_of in test_cases:
+            has_file = "file" in params
+            has_set_working_directory = "set_working_directory" in params
+
+            if should_fail_required_one_of:
+                # None are present
+                assert not (has_file and has_set_working_directory)
+            else:
+                # One of both are present
+                assert has_file or has_set_working_directory

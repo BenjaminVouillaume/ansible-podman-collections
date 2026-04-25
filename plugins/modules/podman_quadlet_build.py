@@ -177,7 +177,7 @@ DOCUMENTATION = r"""
       type: str
     state:
       description:
-        - Whether an image should be present, absent, or built.
+        - State of the Quadlet file.
       default: "quadlet"
       type: str
       choices:
@@ -212,7 +212,7 @@ DOCUMENTATION = r"""
       required: false
     quadlet_options:
       description:
-        - Options for the quadlet file. Provide missing in usual network args
+        - Options for the quadlet file. Provide missing in usual build args
           options as a list of lines to add.
       type: list
       elements: str
@@ -295,6 +295,7 @@ def main():
             ["authfile", "username"],
             ["authfile", "password"],
         ),
+        required_one_of=(["file", "set_working_directory"],)
     )
 
     results = create_quadlet_state(module, "build")
