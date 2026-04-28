@@ -5,7 +5,6 @@
         executable: "{{ test_executable | default('podman') }}"
         name: localhost/myimage:1.0
         file: /var/tmp/build/Dockerfile
-        state: quadlet
         quadlet_dir: /tmp
         quadlet_filename: customfile
 
@@ -25,7 +24,6 @@
         executable: "{{ test_executable | default('podman') }}"
         name: localhost/myimage:v1.0
         file: /var/tmp/build/Dockerfile
-        state: quadlet
         arch: x86_64
         validate_certs: false
         quadlet_dir: /tmp/
@@ -79,7 +77,6 @@
         executable: "{{ test_executable | default('podman') }}"
         name: localhost/myimage:v1.0
         file: /var/tmp/build/Dockerfile
-        state: quadlet
         arch: x86_64
         validate_certs: false
         quadlet_dir: /tmp/
@@ -100,7 +97,6 @@
         executable: "{{ test_executable | default('podman') }}"
         name: localhost/myimage:v1.0
         file: /var/tmp/build/Dockerfile
-        state: quadlet
         arch: arm64
         validate_certs: false
         quadlet_dir: /tmp/

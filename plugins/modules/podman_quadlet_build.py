@@ -1,4 +1,4 @@
-# Copyright (c) 2018 Ansible Project
+# Copyright (c) 2026 Ansible Project
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -175,13 +175,6 @@ DOCUMENTATION = r"""
         - Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman).
       default: 'podman'
       type: str
-    state:
-      description:
-        - State of the Quadlet file.
-      default: "quadlet"
-      type: str
-      choices:
-        - quadlet
     quadlet_dir:
       description:
         - Path to the directory to write quadlet file in.
@@ -279,17 +272,12 @@ def main():
             variant=dict(type="str"),
             volume=dict(type="list", elements="str"),
             executable=dict(type="str", default="podman"),
-            state=dict(
-                type="str",
-                default="quadlet",
-                choices=["quadlet"],
-            ),
             quadlet_dir=dict(type="path", required=False),
             quadlet_filename=dict(type="str"),
             quadlet_file_mode=dict(type="raw", required=False),
             quadlet_options=dict(type="list", elements="str", required=False),
         ),
-        supports_check_mode=False,
+        supports_check_mode=True,
         required_together=(["username", "password"],),
         mutually_exclusive=(
             ["authfile", "username"],
